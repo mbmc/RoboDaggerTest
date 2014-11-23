@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+    }
+
+    // Make test files visible in Android Studio
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['src/test/java']
+        }
+    }
+}
+
+sourceSets {
+    unitTest {
+        java.srcDir file('src/test/java')
+    }
+}
+
+configurations {
+    unitTestCompile.extendsFrom runtime
+    unitTestRuntime.extendsFrom unitTestCompile
+}
+
+task unitTest(type: Test, dependsOn: assemble) {
+    description = "run unit tests"
+    testClassesDir = project.sourceSets.unitTest.output.classesDir
+    classpath = project.sourceSets.unitTest.runtimeClasspath
+}
+
+check.dependsOn unitTest
+
+dependencies {
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    unitTestCompile files("$project.buildDir/intermediates/classes/release")
+    unitTestCompile 'com.squareup.dagger:dagger:1.2.2'
+    unitTestCompile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    unitTestCompile 'junit:junit:4.11'
+
+    // Helps writing test files in Android Studio (completion etc)
+    provided 'junit:junit:4.11'
+}

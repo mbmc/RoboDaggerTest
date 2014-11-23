@@ -1,0 +1,43 @@
+buildscript {
+    dependencies {
+        repositories {
+            jcenter()
+        }
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.14.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        applicationId "com.sample.app"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // Make test files visible in Android Studio
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['src/test/java']
+        }
+    }
+}
+
+apply plugin: 'robolectric'
+
+dependencies {
+    compile project(':Library')
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.robolectric:robolectric:2.4'
+
+    // Helps writing test files in Android Studio (completion etc)
+    provided 'junit:junit:4.11'
+    provided 'org.robolectric:robolectric:2.4'
+}
