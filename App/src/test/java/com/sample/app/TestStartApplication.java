@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.sample.app.dagger.ProductionModule;
+import com.sample.library.dagger.TestModule;
 
 
 public class TestStartApplication extends StartApplication implements TestLifecycleApplication {
@@ -29,7 +30,7 @@ public class TestStartApplication extends StartApplication implements TestLifecy
     protected List<Object> getModules() {
         return Arrays.asList(
                 new ProductionModule(),
-                new com.sample.library.dagger.RoboModule()
+                new TestModule()
         );
     }
 
